@@ -24,6 +24,10 @@ export default class AnimatedPlayground extends Component {
       animateXY: new Animated.ValueXY(0, 0),
       radius: new Animated.Value(0)
     };
+    this.animateInterpolate = this.state.animateXY.y.interpolate({
+      inputRange: [0, 150],
+      outputRange: ['rgba(255,255,255,1)', 'rgba(51,156,177,1)']
+    });
   }
 
   componentWillMount() {
@@ -51,7 +55,7 @@ export default class AnimatedPlayground extends Component {
             {
               width: this.state.animate,
               height: this.state.animate,
-              backgroundColor: '#FABADA',
+              backgroundColor: this.animateInterpolate,
               position: 'absolute',
               top: this.state.animateXY.y,
               left: this.state.animateXY.x,
