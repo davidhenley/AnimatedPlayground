@@ -10,23 +10,54 @@ import {
   StyleSheet,
   Text,
   View,
-  Animated
+  Animated,
+  Dimensions
 } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export default class AnimatedPlayground extends Component {
   constructor() {
     super();
     this.state = {
       animate: new Animated.Value(30),
-      animateXY: new Animated.ValueXY(0, 0)
+      animateXY: new Animated.ValueXY(0, 0),
+      radius: new Animated.Value(0)
     };
+  }
+
+  componentWillMount() {
+    Animated.sequence([
+      Animated.timing(this.state.animateXY, {
+        toValue: { x: 0, y: height / 2 - 30},
+        duration: 3000
+      }),
+      Animated.timing(this.state.animate, {
+        toValue: 60,
+        duration: 3000
+      }),
+      Animated.timing(this.state.radius, {
+        toValue: 30,
+        duration: 2000
+      })
+    ]).start();
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Animated.View
-          style={{ width: 30, height: 30, backgroundColor: '#FABADA' }}
+          style={
+            {
+              width: this.state.animate,
+              height: this.state.animate,
+              backgroundColor: '#FABADA',
+              position: 'absolute',
+              top: this.state.animateXY.y,
+              left: this.state.animateXY.x,
+              borderRadius: this.state.radius
+            }
+          }
         />
       </View>
     );
