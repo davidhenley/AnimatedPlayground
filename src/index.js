@@ -30,7 +30,7 @@ export default class App extends Component {
     };
   }
 
-  showMenu() {
+  toggleMenu() {
     if (this.state.isOpenMenu) {
       this.setState({ isOpenMenu: false });
       Animated.parallel([
@@ -38,6 +38,9 @@ export default class App extends Component {
           toValue: width
         }),
         Animated.timing(this.state.rotateY, {
+          toValue: 0
+        }),
+        Animated.timing(this.state.menuAnimation, {
           toValue: 0
         })
       ]).start();
@@ -49,21 +52,12 @@ export default class App extends Component {
         }),
         Animated.timing(this.state.rotateY, {
           toValue: 1
+        }),
+        Animated.timing(this.state.menuAnimation, {
+          toValue: 1
         })
       ]).start();
     }
-  }
-
-  closeMenu() {
-    this.setState({ isOpenMenu: false });
-    Animated.parallel([
-      Animated.timing(this.state.translateX, {
-        toValue: width
-      }),
-      Animated.timing(this.state.rotateY, {
-        toValue: 0
-      })
-    ]).start();
   }
 
   renderRow(rowData) {
@@ -107,7 +101,7 @@ export default class App extends Component {
             ]
           }]}
         >
-          {this.state.isOpenMenu ? <Navbar icon='times' showMenu={this.closeMenu.bind(this)}/> : <Navbar icon='bars' showMenu={this.showMenu.bind(this)}/>}
+          <Navbar icon={this.state.isOpenMenu ? 'times' : 'bars'} toggleMenu={this.toggleMenu.bind(this)}/>
           <ListView
             style={styles.listContainer}
             renderRow={this.renderRow.bind(this)}
@@ -120,7 +114,8 @@ export default class App extends Component {
             width: 140,
             left: 0,
             top: 100,
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            opacity: this.state.menuAnimation
           }]}
         >
           <Text style={styles.textMenu}>Home</Text>

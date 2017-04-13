@@ -12,7 +12,7 @@ export default class Navbar extends Component {
   render(){
     return (
       <View style={styles.containerNavbar}>
-        <TouchableHighlight onPress={this.props.showMenu}>
+        <TouchableHighlight onPress={this.props.toggleMenu}>
           <Icon name={this.props.icon} size={25} color="#fff" />
         </TouchableHighlight>
         <Text style={styles.navbarTitle}>New Recipes</Text>
